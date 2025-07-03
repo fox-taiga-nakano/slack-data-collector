@@ -30,7 +30,7 @@ jobs:
 
       - name: create .clasp.json
         run: |
-          echo -n '${{ secrets.CLASPRC_PROD_JSON }}' > .clasp.json
+          echo -n '${{ secrets.CLASPRC_PROD_JSON }}' > .clasp-prod.json
 
       - name: deploy
         run: npm run deploy:prod
