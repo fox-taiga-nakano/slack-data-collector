@@ -112,7 +112,10 @@ function onOpen(): void {
     .addToUi();
 }
 
-declare const global: Record<string, unknown>;
+// Google Apps Script環境でのglobalオブジェクトのpolyfill
+declare const globalThis: Record<string, unknown>;
+const global = globalThis;
+
 global.processNextMonth = processNextMonth;
 global.resetProcessedMonth = resetProcessedMonth;
 global.onOpen = onOpen;
