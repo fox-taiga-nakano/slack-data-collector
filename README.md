@@ -45,12 +45,27 @@ clasp login
 }
 ```
 
-### 3. Slack API設定
+### 3. 初期設定
 
+#### Script Properties設定
 Google Apps Script の Script Properties で以下を設定：
 
 - `SLACK_TOKEN`: Slack Bot Token (xoxb-...)
-- その他必要な設定値
+- `CHANNEL_ID`: SlackチャンネルID (C0123456789)
+- `SPREADSHEET_ID`: Google SheetsのID
+
+#### 設定手順
+1. Google Apps Script のプロジェクトを開く
+2. 左側メニューから「プロジェクトの設定」を選択
+3. 「スクリプトプロパティ」セクションで「スクリプトプロパティを追加」をクリック
+4. 上記の設定値を追加
+
+#### settingsシートの自動作成
+初回実行時に、指定されたGoogle Sheetsに「settings」シートが自動作成されます。このシートで以下の設定を管理できます：
+
+- `INCLUDE_THREAD_REPLIES`: スレッド返信を含めるか (true/false)
+- `lastProcessedYear`: 最後に処理した年
+- `lastProcessedMonth`: 最後に処理した月
 
 ## 使用方法
 

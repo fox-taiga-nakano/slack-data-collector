@@ -20,18 +20,8 @@ import { Settings } from './config/settings';
 import { DateUtils } from './utils/date-utils';
 
 async function processNextMonth(): Promise<void> {
-  const props = PropertiesService.getScriptProperties();
-  const yearProp = props.getProperty('lastProcessedYear');
-  const monthProp = props.getProperty('lastProcessedMonth');
-
-  if (!yearProp || !monthProp) {
-    throw new Error(
-      'Last processed year/month not found. Please set lastProcessedYear and lastProcessedMonth in Project Settings > Script Properties.'
-    );
-  }
-
-  const year = Number(yearProp);
-  const month = Number(monthProp);
+  const year = Settings.getLastProcessedYear();
+  const month = Settings.getLastProcessedMonth();
 
   const { year: thisYear, month: thisMonth } = DateUtils.getCurrentYearMonth();
 
@@ -80,8 +70,7 @@ async function processNextMonth(): Promise<void> {
     Logger.log(`${sheetName} の処理が完了しました`);
 
     const nextMonth = DateUtils.getNextMonth(year, month);
-    props.setProperty('lastProcessedYear', nextMonth.year.toString());
-    props.setProperty('lastProcessedMonth', nextMonth.month.toString());
+    Settings.setLastProcessedDate(nextMonth.year, nextMonth.month);
   } catch (e) {
     const error = e as Error;
     Logger.log(`⚠️ ${year}年${month}月の処理でエラー: ${error.message}`);
@@ -89,18 +78,7 @@ async function processNextMonth(): Promise<void> {
 }
 
 function resetProcessedMonth(): void {
-  const props = PropertiesService.getScriptProperties();
-  const yearProp = props.getProperty('lastProcessedYear');
-  const monthProp = props.getProperty('lastProcessedMonth');
-
-  if (!yearProp || !monthProp) {
-    throw new Error(
-      'Cannot reset - last processed year/month properties not found. Please set lastProcessedYear and lastProcessedMonth in Project Settings > Script Properties first.'
-    );
-  }
-
-  props.setProperty('lastProcessedYear', '2024');
-  props.setProperty('lastProcessedMonth', '4');
+  Settings.setLastProcessedDate(2024, 4);
   Logger.log('開始月を2024年4月にリセットしました。');
 }
 

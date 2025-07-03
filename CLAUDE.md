@@ -26,34 +26,37 @@ Google Apps Script (GAS) を使用したSlackデータ収集システム。TypeS
 ## アーキテクチャ
 
 - **言語**: TypeScript (ES2020)
-- **ランタイム**: Google Apps Script
+- **ランタイム**: Google Apps Script V8
 - **ビルドツール**: Rollup
-- **テストフレームワーク**: Jest
-- **パッケージマネージャー**: pnpm
+- **テストフレームワーク**: Jest with ts-jest
+- **パッケージマネージャー**: npm
+- **コードフォーマット**: Prettier + ESLint + gts
 
 ## コマンド
 
 ### 開発・ビルド
 
 ```bash
-pnpm run clean          # ビルド成果物をクリーンアップ
-pnpm run build          # TypeScriptをコンパイルしてdistディレクトリに出力
-pnpm run bundle         # Rollupでバンドル
+npm run clean           # ビルド成果物をクリーンアップ
+npm run build           # 統合ビルド（clean + bundle + appsscript.json）
+npm run bundle          # Rollupでバンドル
+npm run format          # Prettierでコードフォーマット
 ```
 
 ### テスト・品質チェック
 
 ```bash
-pnpm test               # Jestでテスト実行
-pnpm run lint           # ESLint + ライセンスチェック実行
-pnpm run license        # ライセンスヘッダーを追加
+npm test                # Jestでテスト実行（--passWithNoTests対応）
+npm run lint            # ESLint + ライセンスチェック実行
+npm run license         # ライセンスヘッダーを追加
 ```
 
-### デプロイ
+### デプロイ・環境設定
 
 ```bash
-pnpm run deploy         # 開発環境(.clasp-dev.json)にデプロイ
-pnpm run deploy:prod    # 本番環境(.clasp-prod.json)にデプロイ
+npm run deploy          # 開発環境(.clasp-dev.json)にデプロイ
+npm run deploy:prod     # 本番環境(.clasp-prod.json)にデプロイ
+npm run env:setup       # GitHub Secretsの設定自動化
 ```
 
 ## コード構造
@@ -78,15 +81,19 @@ src/
 
 ### ビルド設定
 
-- Rollupでバンドルし、distディレクトリに出力
-- ライセンスヘッダーの自動追加
-- TypeScript、Prettier、cleanup pluginを使用
+- **出力**: distディレクトリ
+- **バンドル**: Rollup（ESM形式）
+- **プラグイン**: cleanup, license, typescript, prettier
+- **ライセンス**: Apache 2.0ヘッダー自動挿入
+- **appsscript.json**: タイムゾーン（Asia/Tokyo）、V8ランタイム
 
 ### Google Apps Script固有の考慮事項
 
-- Script Propertiesを使用したシークレット管理（SLACK_TOKEN等）
-- Rate limiting対応（3秒間隔でのAPI呼び出し）
-- エラーリトライ機能付きURLFetch
+- **globalThis polyfill**: `global`オブジェクトが未定義のため実装
+- **Script Properties**: シークレット管理（SLACK_TOKEN等）
+- **Rate limiting**: 3秒間隔でのAPI呼び出し
+- **エラーハンドリング**: URLFetchにリトライ機能
+- **有効なサービス**: Drive v2, Sheets v4
 
 ### コーディング規約
 
@@ -98,7 +105,9 @@ src/
 ## 開発時の注意点
 
 1. **Node.js 22以上**が必要
-2. Google Apps Scriptプロジェクトとの連携にはclasp設定が必要
-3. Slack APIトークンはScript Propertiesで管理（コードに直接記述しない）
-4. スレッド返信の取得時は追加のAPI呼び出しが必要
-5. Google Sheetsの容量制限に注意
+2. **clasp設定**: Google Apps Scriptプロジェクトとの連携必須
+3. **シークレット管理**: Slack APIトークンはScript Propertiesで管理
+4. **API制限**: スレッド返信の取得時は追加のAPI呼び出しが必要
+5. **容量制限**: Google Sheetsの容量制限に注意
+6. **GitHub Actions**: mainブランチのsrc/\*\*変更時に自動デプロイ
+7. **テスト**: Jest設定で--passWithNoTestsオプション有効
