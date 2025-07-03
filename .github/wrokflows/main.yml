@@ -1,0 +1,36 @@
+name: Deployment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/main.yml'
+      - 'src/**'
+
+  pull_request:
+    branches: [main]
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: node install
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: dependencies install
+        run: npm ci
+
+      - name: create ~/.clasprc.json
+        run: echo -n '${{ secrets.CLASPRC_JSON }}' > ~/.clasprc.json
+
+      - name: create .clasp.json
+        run: |
+          echo -n '${{ secrets.CLASPRC_PROD_JSON }}' > .clasp.json
+
+      - name: deploy
+        run: npm run deploy:prod

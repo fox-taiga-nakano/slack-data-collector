@@ -13,6 +13,7 @@
     "build": "npm run clean && npm run bundle && ncp appsscript.json dist/appsscript.json",
     "license": "license-check-and-add add -f license-config.json",
     "test": "jest test/ --passWithNoTests --detectOpenHandles",
+    "env:setup": "gh secret set CLASPRC_JSON --body \"$(cat ~/.clasprc.json)\" && gh secret set CLASPRC_DEV_JSON --body \"$(cat .clasp-dev.json)\" && gh secret set CLASPRC_PROD_JSON --body \"$(cat .clasp-prod.json)\"",
     "deploy": "npm run lint && npm run test && npm run build && ncp .clasp-dev.json .clasp.json && clasp push -f",
     "deploy:prod": "npm run lint && npm run test && npm run build && ncp .clasp-prod.json .clasp.json && clasp push"
   },
