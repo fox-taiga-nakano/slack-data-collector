@@ -1,3 +1,19 @@
+<!--
+Copyright 2023 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
 # Slack Data Collector
 
 Google Apps Script (GAS) を使用したSlackデータ収集システム。Slack APIからメッセージを取得してGoogle Sheetsに保存します。
@@ -48,6 +64,7 @@ clasp login
 ### 3. 初期設定
 
 #### Script Properties設定
+
 Google Apps Script の Script Properties で以下を設定：
 
 - `SLACK_TOKEN`: Slack Bot Token (xoxb-...)
@@ -55,12 +72,14 @@ Google Apps Script の Script Properties で以下を設定：
 - `SPREADSHEET_ID`: Google SheetsのID
 
 #### 設定手順
+
 1. Google Apps Script のプロジェクトを開く
 2. 左側メニューから「プロジェクトの設定」を選択
 3. 「スクリプトプロパティ」セクションで「スクリプトプロパティを追加」をクリック
 4. 上記の設定値を追加
 
 #### settingsシートの自動作成
+
 初回実行時に、指定されたGoogle Sheetsに「settings」シートが自動作成されます。このシートで以下の設定を管理できます：
 
 - `INCLUDE_THREAD_REPLIES`: スレッド返信を含めるか (true/false)

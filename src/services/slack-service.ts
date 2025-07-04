@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { SlackMessage, SlackResponse } from '../types/slack';
-import { Settings } from '../config/settings';
+import { SlackMessage, SlackResponse } from '@/types/slack';
+import { Settings } from '@/config/settings';
 
 export class SlackService {
   private static readonly API_BASE_URL = 'https://slack.com/api';

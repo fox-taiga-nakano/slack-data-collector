@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { SlackService } from './services/slack-service';
-import { SpreadsheetService } from './services/spreadsheet-service';
-import { Settings } from './config/settings';
-import { DateUtils } from './utils/date-utils';
+import { SlackService } from '@/services/slack-service';
+import { SpreadsheetService } from '@/services/spreadsheet-service';
+import { Settings } from '@/config/settings';
+import { DateUtils } from '@/utils/date-utils';
 
 async function processNextMonth(): Promise<void> {
   const year = Settings.getLastProcessedYear();

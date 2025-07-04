@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { SlackMessage } from '../types/slack';
-import { Settings } from '../config/settings';
+import { SlackMessage } from '@/types/slack';
+import { Settings } from '@/config/settings';
 
 export class SpreadsheetService {
   static saveToSpreadsheet(messages: SlackMessage[], sheetName: string): void {

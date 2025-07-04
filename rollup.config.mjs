@@ -17,7 +17,9 @@ import cleanup from 'rollup-plugin-cleanup';
 import license from 'rollup-plugin-license';
 import prettier from 'rollup-plugin-prettier';
 import typescript from 'rollup-plugin-typescript2';
+import alias from '@rollup/plugin-alias';
 import { fileURLToPath } from 'url';
+import path from 'path';
 
 export default {
   input: 'src/index.ts',
@@ -26,6 +28,11 @@ export default {
     format: 'esm',
   },
   plugins: [
+    alias({
+      entries: [
+        { find: '@', replacement: path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'src') }
+      ]
+    }),
     cleanup({ comments: 'none', extensions: ['.ts'] }),
     license({
       banner: {
